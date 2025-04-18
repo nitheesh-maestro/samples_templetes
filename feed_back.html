@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Document</title>
+</head>
+<style>
+</style>
+<body class="bg-blue-100">
+    <div class="sm:mx-16 sm:mt-6 m-6 bg-white h-20 flex items-center justify-center shadow-md rounded-xl flex">
+        <p class="text-2xl font-semibold">subject name - subject code</p>
+      </div>
+
+      <div id = "main_container" class="main_container continer px-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
+        </div>
+
+        
+
+    </div>
+    <div class="btns flex justify-around">
+        <button class="w-32 border-2 border-cyan-200 h-10 items-center rounded-full shadow hover:shadow-lg transition duration-300 bg-white">back</button>
+        <button class="w-32 border-2 border-cyan-200 h-10 items-center rounded-full shadow hover:shadow-lg transition duration-300 bg-white">next</button>
+    </div>
+
+    <script>
+        const questions = [
+            "question_1 - teacher and student intersteration , problem solving skills and program skills in java script",
+            "question_2 - teacher and student intersteration , problem solving skills and program skills in java script",
+            "question_3 - teacher and student intersteration , problem solving skills and program skills in java script",
+            "question_4 - teacher and student intersteration , problem solving skills and program skills in java script",
+            "question_5 - teacher and student intersteration , problem solving skills and program skills in java script",
+            "question_6 - teacher and student intersteration , problem solving skills and program skills in java script",
+            "question_7 - teacher and student intersteration , problem solving skills and program skills in java script",
+            "question_8 - teacher and student intersteration , problem solving skills and program skills in java script",
+            "question_9 - teacher and student intersteration , problem solving skills and program skills in java script",
+            "question_10 - teacher and student intersteration , problem solving skills and program skills in java script",
+        ]
+        questions.map((elements, index) => {
+            document.getElementById("main_container").innerHTML += `
+            <div class="members_sm bg-white flex flex-col gap-5 justify-between p-4 h-auto mb-1 rounded-md items-center rounded-xl shadow hover:shadow-lg transition duration-300 sm:flex-row">
+                <div class = "parz">
+                    <p>${elements}</p>
+                </div>
+                <div class="options">
+                    <select name="" id="" class=" w-32 border-2 border-blue-100 h-10 items-center rounded-full">
+                        <option value="">choose</option>
+                        <option value="exclent">excelent</option>
+                        <option value="good">good</option>
+                        <option value="avarage">avarage</option>
+                    </select>
+                </div>
+            </div>
+
+            `
+        })
+    </script>
+</body>
+</html>
