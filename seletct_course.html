@@ -1,48 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.tailwindcss.com"></script>
   <title>Elicitive Course</title>
+  <meta name="csrfmiddlewaretoken" content="{{ csrf_token }}">
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 </head>
 <style>
-    *{
-        font-family: sans-serif ;
-    }
+  * {
+    font-family: sans-serif;
+  }
 </style>
+
 <body class="bg-blue-800 w-full h-screen p-7 sm:flex sm:justify-center sm:items-center ">
-  <div class="main bg-white w-auto h-full p-4 rounded-2xl shadow-2xl flex flex-col gap-6 overflow-auto sm:w-[70%] sm:h-[80%] scroll-smooth">
+  <div
+    class="main bg-white w-auto h-full p-4 rounded-2xl shadow-2xl flex flex-col gap-6 overflow-auto sm:w-[70%] sm:h-[80%] scroll-smooth">
 
     <h1 class="text-3xl font-bold text-blue-800 text-center">Elicitive Course</h1>
 
-        <div id = "cource_disp" class="course_list flex flex-wrap justify-around mt-7 gap-7">
+    <div id="cource_disp" class="course_list flex flex-wrap justify-around mt-7 gap-7">
+    </div>
 
-        </div>
 
-        
-   </div>
+  </div>
   </div>
   <script>
-    let cources = [
-        "cource_1","cource_1","cource_1",
-        "cource_1","cource_1","cource_1",
-        "cource_1","cource_1","cource_1",
-        "cource_1","cource_1","cource_1",
-        "cource_1","cource_1","cource_1",
-        "couece_1"
-    ]
+    // csrf token from django 
+    const csrftoken = $('meta[name="csrfmiddlewaretoken"]').attr('content');
+    // api
+    const url = "http://127.0.0.1:8000/api/universal-search/"; 
+    // example data request 
+    const post_data = {
+      mode: 'sub',
+      course_type: 'mcourse',
+      dept: 'CSE',
+      semester: 4
+    };
 
-    cources.forEach((cources_ele, indexs)=>document.getElementById("cource_disp").innerHTML += `
-    <a href="">
-                <div class="course w-[190px] h-[40px] p-4 border-2 border-blue-200 rounded-xl text-center shadow-md hover:bg-blue-100 transition flex items-center justify-center">
-                    ${cources_ele}
-                </div>
-            </a>
-    ` 
-    )
+    $.ajax({
+        url : url,
+        type : "POST",
+        contentType: "application/json",
+        data: JSON.stringify(post_data),
+        headers : {
+            'X-CSRFToken': csrftoken,
+            'Accept': 'application/json'
+        },
+        success : function(data,status){
+            if (data && Array.isArray(data.datas)) {
+                data.datas.forEach(function (courseObject, index) {
+                let courseHtml = `
+                    <a href="${courseObject.id}"> <div class="course w-[190px] h-[40px] p-4 border-2 border-blue-200 rounded-xl text-center shadow-md hover:bg-blue-100 transition flex items-center justify-center">
+                            ${courseObject.name} </div>
+                    </a>
+                `;
+                $("#cource_disp").append(courseHtml);
+                });
+            } else {
+                console.error("API response format incorrect or empty:", data);
+                $("#cource_disp").html("<p>Could not load courses. Please check the API response.</p>");
+            }
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.error("API request failed:", textStatus, errorThrown, jqXHR);
+            $("#cource_disp").html("<p>Error fetching courses. Please try again later.</p>");
+        }
+
+    });
   </script>
 </body>
-</html>
 
+</html>
